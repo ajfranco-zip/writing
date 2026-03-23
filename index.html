@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Stilldraft is an offline-first writing studio for novels, chapters, and long-form creative work."
+    />
+    <meta name="theme-color" content="#f7f3ec" />
+    <title>Stilldraft</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/icon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-frame" id="appFrame">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">S</div>
+          <div>
+            <p class="eyebrow">Offline-first writing studio</p>
+            <h1>Stilldraft</h1>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-button is-active" data-nav-target="dashboard">
+            <span>Dashboard</span>
+            <small>Projects & progress</small>
+          </button>
+          <button class="nav-button" data-nav-target="editor" id="continueWritingNav">
+            <span>Continue writing</span>
+            <small>Jump back into your draft</small>
+          </button>
+          <button class="nav-button" data-nav-target="reader" id="readerNavButton">
+            <span>Reader mode</span>
+            <small>Preview your work beautifully</small>
+          </button>
+          <a class="nav-button nav-link" href="./published.html">
+            <span>Published page</span>
+            <small>Reader-facing static page</small>
+          </a>
+        </nav>
+
+        <div class="sidebar-actions">
+          <button class="primary-button" id="newProjectButton">New project</button>
+          <button class="secondary-button" id="exportBackupButton">Backup JSON</button>
+          <label class="secondary-button file-trigger">
+            Restore JSON
+            <input type="file" id="restoreBackupInput" accept="application/json" />
+          </label>
+        </div>
+
+        <div class="sidebar-note card subtle-card">
+          <strong>Autosave is on.</strong>
+          <p>
+            Writing is stored in your browser for this GitHub Pages site. Use Backup JSON regularly for a portable copy.
+          </p>
+        </div>
+      </aside>
+
+      <main class="main-shell">
+        <header class="topbar">
+          <button class="icon-button mobile-only" id="mobileSidebarToggle" aria-label="Open navigation">
+            ☰
+          </button>
+          <div>
+            <p class="eyebrow" id="viewEyebrow">Project dashboard</p>
+            <h2 id="viewTitle">Your writing home</h2>
+          </div>
+          <div class="topbar-actions">
+            <span class="save-pill" id="saveStatus">Saved locally</span>
+            <button class="secondary-button compact" id="focusModeButton">Focus mode</button>
+          </div>
+        </header>
+
+        <section class="view" id="dashboardView">
+          <div class="hero-grid">
+            <article class="hero-card card">
+              <div>
+                <p class="eyebrow">Calm, organized, built for long-form work</p>
+                <h3>Write novels without losing the shape of the whole book.</h3>
+                <p>
+                  Create projects, organize chapters, write offline, and export whenever you are ready.
+                </p>
+              </div>
+              <div class="hero-actions">
+                <button class="primary-button" id="dashboardNewProjectButton">Start a new book</button>
+                <button class="secondary-button" id="loadSampleButton">Load sample project</button>
+              </div>
+            </article>
+
+            <article class="stats-card card">
+              <div class="stat-block">
+                <span>Total projects</span>
+                <strong id="totalProjectsStat">0</strong>
+              </div>
+              <div class="stat-block">
+                <span>Total chapters</span>
+                <strong id="totalChaptersStat">0</strong>
+              </div>
+              <div class="stat-block">
+                <span>Total words</span>
+                <strong id="totalWordsStat">0</strong>
+              </div>
+            </article>
+          </div>
+
+          <section class="card dashboard-controls">
+            <div>
+              <p class="eyebrow">Library</p>
+              <h3>Your projects</h3>
+            </div>
+            <div class="dashboard-toolbar">
+              <input
+                type="search"
+                id="projectSearchInput"
+                class="search-input"
+                placeholder="Search titles, summaries, or genres"
+              />
+              <select id="statusFilterSelect" class="select-input">
+                <option value="all">All statuses</option>
+                <option value="draft">Drafting</option>
+                <option value="editing">Editing</option>
+                <option value="ready">Ready</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="project-grid" id="projectGrid" aria-live="polite"></section>
+        </section>
+
+        <section class="view hidden" id="editorView">
+          <div class="editor-layout">
+            <aside class="chapter-sidebar card">
+              <div class="panel-heading with-action">
+                <div>
+                  <p class="eyebrow">Structure</p>
+                  <h3>Chapters</h3>
+                </div>
+                <button class="icon-button" id="addChapterButton" aria-label="Add chapter">＋</button>
+              </div>
+              <div class="chapter-list" id="chapterList"></div>
+              <div class="chapter-sidebar-footer">
+                <div class="mini-stat">
+                  <span>Project words</span>
+                  <strong id="projectWordsStat">0</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Estimated read</span>
+                  <strong id="projectReadTimeStat">0 min</strong>
+                </div>
+              </div>
+            </aside>
+
+            <section class="editor-panel card">
+              <div class="editor-header-row">
+                <div>
+                  <p class="eyebrow">Writing desk</p>
+                  <h3 id="editorProjectHeading">Select a project</h3>
+                  <p class="muted" id="editorProjectMeta">Create or open a project to begin.</p>
+                </div>
+                <div class="editor-header-actions">
+                  <button class="secondary-button compact" id="editProjectButton">Project details</button>
+                  <button class="secondary-button compact" id="openReaderButton">Reader</button>
+                  <button class="secondary-button compact" id="printProjectButton">Print</button>
+                </div>
+              </div>
+
+              <div class="field-row chapter-title-row">
+                <label class="field-label" for="chapterTitleInput">Chapter title</label>
+                <input type="text" id="chapterTitleInput" class="text-input" placeholder="Untitled chapter" />
+              </div>
+
+              <div class="metrics-strip" id="editorMetricsStrip">
+                <div class="metric-card">
+                  <span>Chapter words</span>
+                  <strong id="chapterWordsMetric">0</strong>
+                </div>
+                <div class="metric-card">
+                  <span>Chapter reading time</span>
+                  <strong id="chapterReadMetric">0 min</strong>
+                </div>
+                <div class="metric-card">
+                  <span>Characters</span>
+                  <strong id="chapterCharactersMetric">0</strong>
+                </div>
+                <div class="metric-card">
+                  <span>Last saved</span>
+                  <strong id="chapterSavedMetric">—</strong>
+                </div>
+              </div>
+
+              <div class="editor-mode-toggle" role="tablist" aria-label="Editor modes">
+                <button class="mode-button is-active" data-editor-mode="write">Write</button>
+                <button class="mode-button" data-editor-mode="split">Split</button>
+                <button class="mode-button" data-editor-mode="preview">Preview</button>
+              </div>
+
+              <div class="editor-workspace mode-write" id="editorWorkspace">
+                <textarea
+                  id="chapterBodyInput"
+                  class="editor-textarea"
+                  placeholder="Begin with a scene, a voice, a single sentence worth keeping..."
+                  spellcheck="true"
+                ></textarea>
+                <div class="preview-panel" id="chapterPreviewPanel"></div>
+              </div>
+
+              <div class="editor-footer-actions">
+                <div class="button-group wrap-gap">
+                  <button class="secondary-button compact" id="duplicateChapterButton">Duplicate chapter</button>
+                  <button class="secondary-button compact" id="moveChapterUpButton">Move up</button>
+                  <button class="secondary-button compact" id="moveChapterDownButton">Move down</button>
+                </div>
+                <div class="button-group wrap-gap">
+                  <button class="secondary-button compact" id="exportTxtButton">Export TXT</button>
+                  <button class="secondary-button compact" id="exportMdButton">Export MD</button>
+                  <button class="secondary-button compact" id="exportPdfButton">Export PDF</button>
+                  <button class="secondary-button compact" id="exportPublishedButton">Export publish JSON</button>
+                  <button class="danger-button compact" id="deleteChapterButton">Delete chapter</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view hidden" id="readerView">
+          <div class="reader-layout">
+            <aside class="reader-sidebar card">
+              <div class="panel-heading">
+                <p class="eyebrow">Reader mode</p>
+                <h3 id="readerProjectHeading">Preview</h3>
+              </div>
+              <p class="muted" id="readerProjectMeta">Select a project to preview the full manuscript.</p>
+              <div class="reader-actions wrap-gap">
+                <button class="primary-button compact" id="readerBackToEditorButton">Back to editor</button>
+                <button class="secondary-button compact" id="readerExportPdfButton">Export PDF</button>
+                <button class="secondary-button compact" id="readerOpenPublishedButton">Open published page</button>
+              </div>
+              <div class="toc-list" id="readerToc"></div>
+            </aside>
+
+            <article class="reader-article card" id="readerArticle"></article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="dialog" id="projectDialog">
+      <form method="dialog" class="dialog-form" id="projectForm">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">Project setup</p>
+            <h3 id="projectDialogTitle">New project</h3>
+          </div>
+          <button class="icon-button" type="button" id="closeProjectDialogButton" aria-label="Close dialog">×</button>
+        </div>
+
+        <label class="field-label" for="projectTitleInput">Book title</label>
+        <input type="text" id="projectTitleInput" class="text-input" required placeholder="The Quiet House" />
+
+        <div class="two-column-fields">
+          <div>
+            <label class="field-label" for="projectAuthorInput">Author</label>
+            <input type="text" id="projectAuthorInput" class="text-input" placeholder="Your name or pen name" />
+          </div>
+          <div>
+            <label class="field-label" for="projectGenreInput">Genre</label>
+            <input type="text" id="projectGenreInput" class="text-input" placeholder="Fantasy, memoir, literary fiction..." />
+          </div>
+        </div>
+
+        <label class="field-label" for="projectStatusInput">Status</label>
+        <select id="projectStatusInput" class="select-input">
+          <option value="draft">Drafting</option>
+          <option value="editing">Editing</option>
+          <option value="ready">Ready</option>
+        </select>
+
+        <label class="field-label" for="projectSummaryInput">Summary</label>
+        <textarea id="projectSummaryInput" class="text-area" rows="5" placeholder="A one-paragraph overview, mood note, or premise."></textarea>
+
+        <div class="dialog-actions">
+          <button class="secondary-button" type="button" id="cancelProjectDialogButton">Cancel</button>
+          <button class="primary-button" type="submit" id="saveProjectDialogButton">Save project</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="emptyDashboardTemplate">
+      <article class="empty-state card">
+        <p class="eyebrow">No projects yet</p>
+        <h3>Make space for your first manuscript.</h3>
+        <p>
+          Start a blank book, or load the sample project to explore the full writing flow before customizing it.
+        </p>
+        <div class="hero-actions">
+          <button class="primary-button" data-empty-action="create">Create project</button>
+          <button class="secondary-button" data-empty-action="sample">Load sample</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

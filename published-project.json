@@ -1,0 +1,17 @@
+{
+  "app": "Stilldraft",
+  "generatedAt": "2026-03-21T00:00:00.000Z",
+  "project": {
+    "title": "Your Book Title Here",
+    "author": "Your Name",
+    "genre": "Fiction",
+    "summary": "Replace this file with the published-project.json export from the writer app to make this page public on GitHub Pages.",
+    "chapters": [
+      {
+        "id": "chapter-1",
+        "title": "Chapter 1",
+        "content": "This is placeholder text for the public-facing reader page.\n\nOpen index.html, choose your project, and use Export publish JSON when you are ready to replace this file."
+      }
+    ]
+  }
+}

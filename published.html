@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A reader-facing page for a finished Stilldraft project. Replace published-project.json with your exported manuscript."
+    />
+    <meta name="theme-color" content="#f7f3ec" />
+    <title>Stilldraft — Published</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="published-shell">
+      <header class="published-topbar">
+        <div>
+          <p class="eyebrow">Reader-facing static page</p>
+          <h1>Stilldraft Published</h1>
+        </div>
+        <div class="wrap-gap">
+          <a class="secondary-button compact" href="./index.html">Open writing studio</a>
+          <button class="primary-button compact" id="publishedPrintButton">Print / Save PDF</button>
+        </div>
+      </header>
+
+      <div class="published-grid">
+        <aside class="published-card card">
+          <div class="published-hero" id="publishedHero"></div>
+          <div class="published-toc toc-list" id="publishedToc"></div>
+          <p class="footer-note">
+            This page can load a local project from your browser, or a shared <code>published-project.json</code> file placed beside it.
+          </p>
+        </aside>
+
+        <article class="published-article" id="publishedArticle"></article>
+      </div>
+    </main>
+
+    <script src="./published.js" defer></script>
+  </body>
+</html>
