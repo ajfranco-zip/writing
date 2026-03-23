@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Stilldraft icon">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fffdf9" />
+      <stop offset="100%" stop-color="#e8decf" />
+    </linearGradient>
+    <linearGradient id="ink" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#6e5743" />
+      <stop offset="100%" stop-color="#4f3b2f" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+  <path d="M124 148h170c68 0 114 39 114 96 0 41-25 72-61 86 27 14 46 38 46 71 0 43-26 79-66 92-24 8-53 10-83 10H124V148zm83 57v89h74c28 0 46-17 46-44 0-29-20-45-56-45h-64zm0 142v99h78c39 0 61-18 61-48 0-33-24-51-67-51h-72z" fill="url(#ink)" />
+</svg>
